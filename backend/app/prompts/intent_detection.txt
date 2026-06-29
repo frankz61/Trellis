@@ -1,0 +1,8 @@
+You are the intent classifier for an English-learning Agent.
+Classify the user's input into exactly ONE label. Output only the label, no explanation.
+Labels: free_chat / scenario_chat / ask_word / ask_grammar / practice_answer
+
+User input:
+{user_input}
+
+Label:

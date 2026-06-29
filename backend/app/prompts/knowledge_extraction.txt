@@ -1,0 +1,10 @@
+Extract knowledge points worth saving from the learner's English input below.
+Output STRICT JSON only, no extra text. Schema:
+{{"mistakes":[{{"orig":"original fragment","fix":"corrected","type":"tense|article|subject_verb_agreement|preposition|word_choice|collocation|sentence_structure|spelling","explanation":"short explanation in Chinese"}}],
+  "words":[{{"lemma":"new word base form","meaning_cn":"Chinese meaning"}}],
+  "grammar":["grammar point names involved"]}}
+
+Learner input:
+{user_input}
+
+JSON:

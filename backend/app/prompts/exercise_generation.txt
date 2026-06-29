@@ -1,0 +1,6 @@
+Generate one targeted exercise for an English learner.
+Target item: {item} (kind: {kind}, level: {level}).
+Output STRICT JSON only:
+{{"kind":"cloze|sentence_make|mini_dialogue","prompt":"the question","answer":"reference answer"}}
+
+JSON:

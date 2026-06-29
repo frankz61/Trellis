@@ -1,0 +1,68 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Backend: FastAPI (debug, no reload)",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "C:/ProgramData/anaconda3/envs/trellis/python.exe",
+      "module": "scripts.dev_server",
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "Backend: uvicorn --reload",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "C:/ProgramData/anaconda3/envs/trellis/python.exe",
+      "module": "scripts.dev_server",
+      "args": ["--reload"],
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "Import WordNet (seed)",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "C:/ProgramData/anaconda3/envs/trellis/python.exe",
+      "module": "scripts.import_wordnet",
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "Import WordNet (wordlist.sample)",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "C:/ProgramData/anaconda3/envs/trellis/python.exe",
+      "module": "scripts.import_wordnet",
+      "args": ["data/wordlist.sample.txt"],
+      "cwd": "${workspaceFolder}/backend",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    },
+    {
+      "name": "Frontend: vite + Chrome (random port)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder}/frontend",
+      "serverReadyAction": {
+        "pattern": "Local:\\s+http://localhost:([0-9]+)",
+        "uriFormat": "http://localhost:%s",
+        "action": "debugWithChrome",
+        "webRoot": "${workspaceFolder}/frontend/src"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Full stack (random ports)",
+      "preLaunchTask": "alloc-dev-ports",
+      "configurations": ["Backend: uvicorn --reload", "Frontend: vite + Chrome (random port)"],
+      "stopAll": true
+    }
+  ]
+}

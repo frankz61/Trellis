@@ -1,0 +1,10 @@
+# Neo4j and PostgreSQL are deployed on separate servers; this only orchestrates
+# the application. Databases are connected via .env.
+services:
+  backend:
+    build: ./backend
+    env_file: .env
+    ports: ["8000:8000"]
+  frontend:
+    build: ./frontend
+    ports: ["5173:80"]

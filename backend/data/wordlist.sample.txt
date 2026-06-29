@@ -1,0 +1,9 @@
+# One word per line. Optional CEFR after a comma:  word,CEFR
+meticulous,C1
+resilient,B2
+ubiquitous,C1
+pragmatic,C1
+concise,B2
+diligent,B2
+inevitable,B2
+ambiguous,C1

@@ -1,0 +1,8 @@
+Evaluate whether the learner's answer is correct and give short feedback in Chinese.
+Output STRICT JSON only:
+{{"correct": true or false, "feedback":"feedback in Chinese", "mastery_delta": integer (-1, 0, or 1)}}
+
+Learner answer:
+{answer}
+
+JSON:
