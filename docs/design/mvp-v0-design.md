@@ -397,7 +397,7 @@ LLM_TEMPERATURE=0.3
 cd backend
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000           # 改代码即热重载；prompts/ 改文件即生效
+python -m scripts.dev_server --reload               # http://localhost:57702
 ```
 - `config.py` 用 pydantic-settings/`python-dotenv` 加载根目录 `.env`，本地可用 `.env.local` 覆盖。
 - IDE 断点：以 `app.main:app` 为入口配置 VS Code `launch.json`（module=uvicorn）或 PyCharm 的 uvicorn 运行项。
@@ -406,14 +406,14 @@ uvicorn app.main:app --reload --port 8000           # 改代码即热重载；pr
 ```bash
 cd frontend
 npm install
-npm run dev                                         # http://localhost:5173
+npm run dev                                         # http://localhost:57701
 ```
 - `vite.config.ts` 配代理，把 `/api` 转发到本地后端，免跨域：
 ```ts
-server: { proxy: { '/api': 'http://localhost:8000' } }
+server: { port: 57701, proxy: { '/api': 'http://localhost:57702' } }
 ```
 
-**CORS**：后端按环境放行本地前端源 `http://localhost:5173`（容器内同源时无需）。
+**CORS**：后端按环境放行本地前端源 `http://localhost:57701`（容器内同源时无需）。
 
 **一键脚本（可选）**：根目录 `Makefile` 或 `dev.ps1` / `dev.sh` 并行起前后端，`make dev` 一条命令拉起。
 

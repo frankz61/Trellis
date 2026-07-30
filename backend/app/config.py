@@ -32,10 +32,29 @@ class Settings(BaseSettings):
     llm_temperature: float = 0.3
     llm_max_tokens: int = 1024
 
+    # Speech-to-text (OpenAI-compatible; falls back to the LLM endpoint/key)
+    stt_base_url: str = ""
+    stt_api_key: str = ""
+    stt_model: str = "groq/whisper-large-v3-turbo"
+    stt_timeout_seconds: float = 60
+    audio_max_mb: int = 10
+
+    # Text-to-speech (OpenAI-compatible; falls back to the STT/LLM endpoint/key)
+    tts_base_url: str = ""
+    tts_api_key: str = ""
+    tts_model: str = "deepgram/aura-asteria-en"
+    tts_voice: str = "asteria"
+    tts_response_format: str = "mp3"
+    tts_timeout_seconds: float = 60
+    tts_max_input_chars: int = 2000
+
     # App
-    cors_origins: list[str] = ["http://localhost:5173"]
-    # Dev server port (BACKEND_PORT in .env.local, set per session by scripts/alloc-ports.ps1)
-    backend_port: int = 8000
+    cors_origins: list[str] = [
+        "http://localhost:57701",
+        "http://127.0.0.1:57701",
+    ]
+    # Fixed local debug port; BACKEND_PORT may override it when explicitly needed.
+    backend_port: int = 57702
 
 
 @lru_cache
@@ -57,5 +76,7 @@ def config_diagnostics() -> dict:
         "llm_model": settings.llm_model,
         "dotenv_llm_model": dotenv_config.get("LLM_MODEL"),
         "process_env_llm_model": os.getenv("LLM_MODEL"),
+        "stt_model": settings.stt_model,
+        "tts_model": settings.tts_model,
         "backend_port": settings.backend_port,
     }

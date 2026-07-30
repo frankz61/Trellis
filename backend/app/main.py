@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api import chat, mistakes, reviews, settings as settings_api, vocab
+from app.api import chat, mistakes, reviews, settings as settings_api, speech, vocab
 from app.config import config_diagnostics, get_settings
 from app.kg.neo4j_client import Neo4jClient
 
@@ -43,6 +43,7 @@ def create_app() -> FastAPI:
     app.include_router(vocab.router, prefix="/api")
     app.include_router(mistakes.router, prefix="/api")
     app.include_router(settings_api.router, prefix="/api")
+    app.include_router(speech.router, prefix="/api")
 
     @app.get("/health")
     def health():

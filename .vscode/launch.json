@@ -8,6 +8,9 @@
       "python": "C:/ProgramData/anaconda3/envs/trellis/python.exe",
       "module": "scripts.dev_server",
       "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "BACKEND_PORT": "57702"
+      },
       "console": "integratedTerminal",
       "justMyCode": false
     },
@@ -19,6 +22,9 @@
       "module": "scripts.dev_server",
       "args": ["--reload"],
       "cwd": "${workspaceFolder}/backend",
+      "env": {
+        "BACKEND_PORT": "57702"
+      },
       "console": "integratedTerminal",
       "justMyCode": false
     },
@@ -44,11 +50,15 @@
       "justMyCode": false
     },
     {
-      "name": "Frontend: vite + Chrome (random port)",
+      "name": "Frontend: vite + Chrome (57701)",
       "type": "node-terminal",
       "request": "launch",
       "command": "npm run dev",
       "cwd": "${workspaceFolder}/frontend",
+      "env": {
+        "FRONTEND_PORT": "57701",
+        "BACKEND_PORT": "57702"
+      },
       "serverReadyAction": {
         "pattern": "Local:\\s+http://localhost:([0-9]+)",
         "uriFormat": "http://localhost:%s",
@@ -59,9 +69,8 @@
   ],
   "compounds": [
     {
-      "name": "Full stack (random ports)",
-      "preLaunchTask": "alloc-dev-ports",
-      "configurations": ["Backend: uvicorn --reload", "Frontend: vite + Chrome (random port)"],
+      "name": "Full stack (fixed ports)",
+      "configurations": ["Backend: uvicorn --reload", "Frontend: vite + Chrome (57701)"],
       "stopAll": true
     }
   ]

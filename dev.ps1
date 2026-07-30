@@ -1,16 +1,38 @@
-# Local dev: start backend (uvicorn hot reload) and frontend (vite) in parallel,
-# each on a freshly-allocated random high port (no fixed 8000/5173).
+# Local dev: start backend (uvicorn hot reload) and frontend (vite) in parallel
+# on the project's fixed debug ports.
 # Uses the conda env "trellis" python directly (no activation needed).
 # Prereq: pip install -r backend/requirements.txt into env trellis; frontend npm install; .env filled.
 $ErrorActionPreference = "Stop"
 $py = "C:\ProgramData\anaconda3\envs\trellis\python.exe"
+$back = 57702
+$front = 57701
 
-# Pick two free high ports and write them to .env.local (backend + vite both read it).
-$ports = & (Join-Path $PSScriptRoot "scripts\alloc-ports.ps1")
-$back = $ports.Backend
-$front = $ports.Frontend
+function Assert-PortFree([int]$port, [string]$service) {
+    $listener = [System.Net.Sockets.TcpListener]::new(
+        [System.Net.IPAddress]::Loopback,
+        $port
+    )
+    try {
+        $listener.Start()
+    }
+    catch {
+        throw "$service debug port $port is already in use. Stop the existing process and retry."
+    }
+    finally {
+        $listener.Stop()
+    }
+}
 
-# Backend reads BACKEND_PORT from .env.local via app.config; vite reads .env.local too.
-Start-Process powershell -ArgumentList "-NoExit","-Command","cd backend; & '$py' -m scripts.dev_server --reload"
-Start-Process powershell -ArgumentList "-NoExit","-Command","cd frontend; npm run dev"
+Assert-PortFree $back "Backend"
+Assert-PortFree $front "Frontend"
+
+$env:BACKEND_PORT = "$back"
+$env:FRONTEND_PORT = "$front"
+
+Start-Process powershell `
+    -WorkingDirectory (Join-Path $PSScriptRoot "backend") `
+    -ArgumentList "-NoExit", "-Command", "& '$py' -m scripts.dev_server --reload"
+Start-Process powershell `
+    -WorkingDirectory (Join-Path $PSScriptRoot "frontend") `
+    -ArgumentList "-NoExit", "-Command", "npm run dev"
 Write-Host "backend: http://localhost:$back   frontend: http://localhost:$front"

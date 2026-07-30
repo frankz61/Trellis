@@ -1,8 +1,7 @@
-"""Run the FastAPI app on the port chosen for this dev/debug session.
+"""Run the FastAPI app on the fixed local debug port.
 
-The port comes from settings (BACKEND_PORT in repo-root .env.local, written by
-scripts/alloc-ports.ps1). Running uvicorn programmatically -- instead of a fixed
-``--port`` in launch.json -- is what lets the debug session pick up the random port.
+The default port is 57702. It comes from settings so an explicit BACKEND_PORT
+environment override still works when needed.
 
 Run (from backend/):
     python -m scripts.dev_server            # debug-friendly: no reload (breakpoints bind)
